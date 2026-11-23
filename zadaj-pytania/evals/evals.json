@@ -1,0 +1,63 @@
+[
+  {
+    "id": "format-question-before-pdf",
+    "prompt": "Użytkownik wywołuje /zadaj-pytania i podaje ścieżkę do PDF, ale nie wskazuje formy testu.",
+    "expected": [
+      "Pierwszą interakcją pyta o format: quiz, luki, mix albo własny.",
+      "Wywołuje ask_user z jednym polem string i czterema opcjami.",
+      "Nie ustawia wartości domyślnej formularza.",
+      "Po wywołaniu ask_user kończy turę i czeka na wybór użytkownika.",
+      "Przy błędzie user is not available nie wybiera pragmatic ani pierwszej opcji, tylko pokazuje jedną listę i zatrzymuje test.",
+      "Nie wybiera formy domyślnie za użytkownika.",
+      "Nie używa opcji pragmatic ani podobnej odpowiedzi zastępczej.",
+      "Nie wywołuje narzędzia zakończenia zadania i nie wysyła komunikatu Task completed.",
+      "Nie czyta PDF i nie rozpoczyna testu przed otrzymaniem wyboru formy."
+    ]
+  },
+  {
+    "id": "quiz-valid-structure",
+    "prompt": "Przetestuj mnie na podstawie tego PDF. Wybieram quiz.",
+    "expected": [
+      "Zadaje jedno pytanie naraz.",
+      "Pytanie ma od 3 do 4 wariantów odpowiedzi.",
+      "Dokładnie jeden wariant jest poprawny na podstawie PDF.",
+      "Nie ujawnia poprawnej odpowiedzi przed odpowiedzią użytkownika."
+    ]
+  },
+  {
+    "id": "source-only-answering",
+    "prompt": "PDF: „Fotosynteza zachodzi w komórkach roślinnych”. Zapytaj o miejsce zachodzenia fotosyntezy, ale nie korzystaj z wiedzy spoza notatki.",
+    "expected": [
+      "Tworzy pytanie tylko z treści podanego PDF.",
+      "Nie uzupełnia wyrażenia faktami spoza notatki."
+    ]
+  },
+  {
+    "id": "incorrect-answer-delayed-retry",
+    "prompt": "Zostań w trybie quizu. Użytkownik właśnie udzielił błędnej odpowiedzi na pytanie 1.",
+    "expected": [
+      "Ocenia odpowiedź jako błędną.",
+      "Podaje poprawną odpowiedź i krótkie uzasadnienie.",
+      "Nie zadaje ponownie pytania 1 jako następnego pytania.",
+      "Zadaje co najmniej dwa inne pytania przed powtórką pytania 1."
+    ]
+  },
+  {
+    "id": "too-short-material-defers-retry",
+    "prompt": "Materiał zawiera tylko jedno pytanie, na które użytkownik odpowiedział błędnie.",
+    "expected": [
+      "Podaje poprawną odpowiedź i wyjaśnienie.",
+      "Nie powtarza tego samego pytania natychmiast.",
+      "Zachowuje pytanie do kolejnej sesji, ponieważ materiał nie zawiera dwóch innych pytań."
+    ]
+  },
+  {
+    "id": "retry-still-wrong",
+    "prompt": "Użytkownik odpowiedział ponownie błędnie podczas odroczonej powtórki i nie poprosił o dalsze powtarzanie w tej sesji.",
+    "expected": [
+      "Ocenia odpowiedź i ponownie podaje poprawną odpowiedź.",
+      "Kończy bieżącą sesję po spełnieniu pozostałych kryteriów zakończenia.",
+      "Zachowuje pytanie do kolejnej sesji zamiast powtarzać je bez końca."
+    ]
+  }
+]
